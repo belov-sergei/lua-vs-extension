@@ -69,9 +69,6 @@
     <Content Include="Icon.png">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Syntaxes\*.*">
-      <IncludeInVSIX>true</IncludeInVSIX>
-    </Content>
     <Content Include="Server\**\*.*">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
