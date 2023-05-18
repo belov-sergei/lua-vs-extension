@@ -105,6 +105,16 @@ end)
 
 m.register 'initialize' {
     function(params)
+        if params.initializationOptions then
+            if params.initializationOptions.rootPath then
+                params.rootPath = params.initializationOptions.rootPath
+            end
+
+            if params.initializationOptions.rootUri then
+                params.rootUri = params.initializationOptions.rootUri
+            end
+        end
+        
         client.init(params)
 
         if params.rootUri then
