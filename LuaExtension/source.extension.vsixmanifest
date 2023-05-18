@@ -2,10 +2,10 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
         <Identity Id="LuaExtension.e664e89e-adff-4e52-9ade-4642795b2c30" Version="1.0" Language="en-US" Publisher="Sergei B." />
-        <DisplayName>Lua Extension</DisplayName>
-        <Description xml:space="preserve">Extension for Lua support in Visual Studio based on the Sumneko Lua Language Server.</Description>
+        <DisplayName>Lua Language Server &amp; Client</DisplayName>
+        <Description xml:space="preserve">Lua support in Visual Studio based on the Sumneko Lua Language Server.</Description>
         <Icon>Icon.png</Icon>
-        <Tags>Lua, LSP, Language Server</Tags>
+        <Tags>Lua, LSP, Language Server, Sumneko </Tags>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
@@ -20,5 +20,6 @@
     </Prerequisites>
     <Assets>
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
     </Assets>
 </PackageManifest>
