@@ -61,7 +61,7 @@ namespace LuaExtension
 		{
 			changeConfiguration = true,
 			rootPath = RootPath,
-			rootUri = $"file:///{RootPath}"
+			rootUri = new Uri(RootPath).ToString()
 		};
 
 		public IEnumerable<string> FilesToWatch => null;
