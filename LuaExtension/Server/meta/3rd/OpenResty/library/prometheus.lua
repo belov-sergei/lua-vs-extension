@@ -9,11 +9,11 @@ local PrometheusOptions = {}
 
 ---metric name prefix.
 ---This string will be prepended to metric names on output.
-PrometheusOptions.prefix = ''
+PrometheusOptions.prefix = ""
 ---Can be used to change the default name of error metric (see
 ---[Built-in metrics](https://github.com/knyar/nginx-lua-prometheus#built-in-metrics)
 ---for details).
-PrometheusOptions.error_metric_name = ''
+PrometheusOptions.error_metric_name = ""
 ---sets per-worker counter sync interval in seconds.
 ---This sets the boundary on eventual consistency of counter metrics.
 ---Defaults to `1`.
@@ -234,7 +234,7 @@ local PrometheusHist = {}
 ---  metric_response_sizes:observe(tonumber(ngx.var.bytes_sent))
 ---}
 ---```
----@param value string is a value that should be recorded. Required.
+---@param value number is a value that should be recorded. Required.
 ---@param label_values? string[] is an array of label values.
 function PrometheusHist:observe(value, label_values) end
 

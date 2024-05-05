@@ -1,6 +1,6 @@
 local brave   = require 'brave.brave'
 
-brave.on('loadProto', function ()
+brave.on('loadProtoByStdio', function ()
     local jsonrpc = require 'jsonrpc'
     while true do
         local proto, err = jsonrpc.decode(io.read)
@@ -13,10 +13,67 @@ brave.on('loadProto', function ()
     end
 end)
 
+brave.on('loadProtoBySocket', function (param)
+    local jsonrpc = require 'jsonrpc'
+    local net     = require 'service.net'
+    local buf = ''
+
+    ---@async
+    local parser = coroutine.create(function ()
+        while true do
+            ---@async
+            local proto, err = jsonrpc.decode(function (len)
+                while true do
+                    if #buf >= len then
+                        local res = buf:sub(1, len)
+                        buf = buf:sub(len + 1)
+                        return res
+                    end
+                    coroutine.yield()
+                end
+            end)
+            --log.debug('loaded proto', proto.method)
+            if not proto then
+                brave.push('protoerror', err)
+                return
+            end
+            brave.push('proto', proto)
+        end
+    end)
+
+    local lsclient = net.connect('tcp', '127.0.0.1', param.port)
+    local lsmaster = net.connect('unix', param.unixPath)
+
+    assert(lsclient)
+    assert(lsmaster)
+
+    function lsclient:on_data(data)
+        buf = buf .. data
+        coroutine.resume(parser)
+    end
+
+    function lsclient:on_error(...)
+        log.error(...)
+    end
+
+    function lsmaster:on_data(data)
+        lsclient:write(data)
+        --net.update()
+    end
+
+    function lsmaster:on_error(...)
+        log.error(...)
+    end
+
+    while true do
+        net.update(10)
+    end
+end)
+
 brave.on('timer', function (time)
     local thread = require 'bee.thread'
     while true do
-        thread.sleep(time)
+        thread.sleep(math.floor(time * 1000))
         brave.push('wakeup')
     end
 end)

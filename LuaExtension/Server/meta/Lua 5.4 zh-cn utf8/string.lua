@@ -51,9 +51,9 @@ function string.dump(f, strip) end
 ---@param pattern string|number
 ---@param init?   integer
 ---@param plain?  boolean
----@return integer start
----@return integer end
----@return any ... captured
+---@return integer|nil start
+---@return integer|nil end
+---@return any|nil ... captured
 ---@nodiscard
 function string.find(s, pattern, init, plain) end
 
@@ -143,6 +143,7 @@ function string.match(s, pattern, init) end
 ---
 ---@param fmt string
 ---@param v1  string|number
+---@param v2? string|number
 ---@param ... string|number
 ---@return string binary
 ---@nodiscard

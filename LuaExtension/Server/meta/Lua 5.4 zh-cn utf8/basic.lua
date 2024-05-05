@@ -16,6 +16,7 @@ arg = {}
 ---@generic T
 ---@param v? T
 ---@param message? any
+---@param ... any
 ---@return T
 ---@return any ...
 function assert(v, message, ...) end
@@ -36,6 +37,7 @@ function assert(v, message, ...) end
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-collectgarbage"])
 ---
 ---@param opt? gcoptions
+---@param ... any
 ---@return any
 function collectgarbage(opt, ...) end
 
@@ -167,6 +169,7 @@ function newproxy(proxy) end
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-module"])
 ---
 ---@param name string
+---@param ...  any
 function module(name, ...) end
 
 ---
@@ -214,6 +217,7 @@ function pairs(t) end
 ---
 ---@param f     async fun(...):...
 ---@param arg1? any
+---@param ...   any
 ---@return boolean success
 ---@return any result
 ---@return any ...
@@ -224,6 +228,7 @@ function pcall(f, arg1, ...) end
 ---
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-print"])
 ---
+---@param ... any
 function print(...) end
 
 ---
@@ -277,6 +282,7 @@ function rawset(table, index, value) end
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-select"])
 ---
 ---@param index integer|"#"
+---@param ...   any
 ---@return any
 ---@nodiscard
 function select(index, ...) end
@@ -292,6 +298,37 @@ function select(index, ...) end
 ---@return function
 function setfenv(f, table) end
 
+
+---@class metatable
+---@field __mode 'v'|'k'|'kv'|nil
+---@field __metatable any|nil
+---@field __tostring (fun(t):string)|nil
+---@field __gc fun(t)|nil
+---@field __add (fun(t1,t2):any)|nil
+---@field __sub (fun(t1,t2):any)|nil
+---@field __mul (fun(t1,t2):any)|nil
+---@field __div (fun(t1,t2):any)|nil
+---@field __mod (fun(t1,t2):any)|nil
+---@field __pow (fun(t1,t2):any)|nil
+---@field __unm (fun(t):any)|nil
+---@field __idiv (fun(t1,t2):any)|nil
+---@field __band (fun(t1,t2):any)|nil
+---@field __bor (fun(t1,t2):any)|nil
+---@field __bxor (fun(t1,t2):any)|nil
+---@field __bnot (fun(t):any)|nil
+---@field __shl (fun(t1,t2):any)|nil
+---@field __shr (fun(t1,t2):any)|nil
+---@field __concat (fun(t1,t2):any)|nil
+---@field __len (fun(t):integer)|nil
+---@field __eq (fun(t1,t2):boolean)|nil
+---@field __lt (fun(t1,t2):boolean)|nil
+---@field __le (fun(t1,t2):boolean)|nil
+---@field __index table|(fun(t,k):any)|nil
+---@field __newindex table|fun(t,k,v)|nil
+---@field __call (fun(t,...):...)|nil
+---@field __pairs (fun(t):(fun(t,k,v):any,any))|nil
+---@field __close (fun(t,errobj):any)|nil
+
 ---
 ---给指定表设置元表。 （你不能在 Lua 中改变其它类型值的元表，那些只能在 C 里做。） 如果 `metatable` 是 `nil`， 将指定表的元表移除。 如果原来那张元表有 `"__metatable"` 域，抛出一个错误。
 ---
@@ -299,7 +336,7 @@ function setfenv(f, table) end
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-setmetatable"])
 ---
 ---@param table      table
----@param metatable? table
+---@param metatable? metatable|table
 ---@return table
 function setmetatable(table, metatable) end
 
@@ -364,6 +401,7 @@ _VERSION = "Lua 5.4"
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-warn"])
 ---
 ---@param message string
+---@param ...     any
 function warn(message, ...) end
 
 ---
@@ -374,6 +412,7 @@ function warn(message, ...) end
 ---@param f     async fun(...):...
 ---@param msgh  function
 ---@param arg1? any
+---@param ...   any
 ---@return boolean success
 ---@return any result
 ---@return any ...
@@ -396,3 +435,10 @@ function xpcall(f, msgh, arg1, ...) end
 ---@return T   ...
 ---@nodiscard
 function unpack(list, i, j) end
+
+---@version 5.1
+---@generic T1, T2, T3, T4, T5, T6, T7, T8, T9
+---@param list {[1]: T1, [2]: T2, [3]: T3, [4]: T4, [5]: T5, [6]: T6, [7]: T7, [8]: T8, [9]: T9 }
+---@return T1, T2, T3, T4, T5, T6, T7, T8, T9
+---@nodiscard
+function unpack(list) end

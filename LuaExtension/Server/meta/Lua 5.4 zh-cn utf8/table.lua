@@ -43,7 +43,7 @@ function table.insert(list, pos, value) end
 ---@nodiscard
 function table.maxn(table) end
 
----@version >5.3
+---@version >5.3, JIT
 ---
 ---将元素从表 `a1` 移到表 `a2`。
 ---```lua

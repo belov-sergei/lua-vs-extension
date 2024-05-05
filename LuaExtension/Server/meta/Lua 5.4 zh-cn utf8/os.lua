@@ -164,12 +164,68 @@ function os.rename(oldname, newname) end
 ---@return string localecategory
 function os.setlocale(locale, category) end
 
+---@class osdateparam
+---
+---四位数字
+---
+---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-osdate.year"])
+---
+---@field year  integer|string
+---
+---1-12
+---
+---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-osdate.month"])
+---
+---@field month integer|string
+---
+---1-31
+---
+---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-osdate.day"])
+---
+---@field day   integer|string
+---
+---0-23
+---
+---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-osdate.hour"])
+---
+---@field hour  (integer|string)?
+---
+---0-59
+---
+---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-osdate.min"])
+---
+---@field min   (integer|string)?
+---
+---0-61
+---
+---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-osdate.sec"])
+---
+---@field sec   (integer|string)?
+---
+---星期几，1-7，星期天为 1
+---
+---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-osdate.wday"])
+---
+---@field wday  (integer|string)?
+---
+---当年的第几天，1-366
+---
+---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-osdate.yday"])
+---
+---@field yday  (integer|string)?
+---
+---夏令时标记，一个布尔量
+---
+---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-osdate.isdst"])
+---
+---@field isdst boolean?
+
 ---
 ---当不传参数时，返回当前时刻。 如果传入一张表，就返回由这张表表示的时刻。
 ---
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-os.time"])
 ---
----@param date? osdate
+---@param date? osdateparam
 ---@return integer
 ---@nodiscard
 function os.time(date) end

@@ -19,20 +19,20 @@ local sp       = require 'bee.subprocess'
 local pub      = require 'pub'
 
 ---@class file
----@field uri          uri
----@field content      string
----@field ref?         integer
----@field trusted?     boolean
----@field rows?        integer[]
----@field originText?  string
----@field text         string
----@field version?     integer
----@field originLines? integer[]
----@field diffInfo?    table[]
----@field cache        table
----@field id           integer
----@field state?       parser.state
----@field compileCount integer
+---@field uri           uri
+---@field ref?          integer
+---@field trusted?      boolean
+---@field rows?         integer[]
+---@field originText?   string
+---@field text?         string
+---@field version?      integer
+---@field originLines?  integer[]
+---@field diffInfo?     table[]
+---@field cache?        table
+---@field id            integer
+---@field state?        parser.state
+---@field compileCount? integer
+---@field words?        table
 
 ---@class files
 ---@field lazyCache?   lazy-cacher
@@ -78,7 +78,7 @@ end
 ---@param uri uri
 ---@return uri
 function m.getRealUri(uri)
-    if platform.OS ~= 'Windows' then
+    if platform.os ~= 'windows' then
         return furi.normalize(uri)
     end
     if not furi.isValid(uri) then
@@ -655,6 +655,17 @@ function m.compileStateAsync(uri, callback)
     end)
 end
 
+local function pluginOnTransformAst(uri, state)
+    local plugin   = require 'plugin'
+    ---TODO: maybe deepcopy astNode
+    local suc, result = plugin.dispatch('OnTransformAst', uri, state.ast)
+    if not suc then
+        return state
+    end
+    state.ast = result or state.ast
+    return state
+end
+
 ---@param uri uri
 ---@return parser.state?
 function m.compileState(uri)
@@ -700,6 +711,12 @@ function m.compileState(uri)
         return nil
     end
 
+    state = pluginOnTransformAst(uri, state)
+    if not state then
+        log.error('pluginOnTransformAst failed! discard the file state')
+        return nil
+    end
+
     m.compileStateThen(state, file)
 
     return state
@@ -708,7 +725,8 @@ end
 ---@class parser.state
 ---@field diffInfo? table[]
 ---@field originLines? integer[]
----@field originText string
+---@field originText? string
+---@field lua? string
 
 --- 获取文件语法树
 ---@param uri uri
@@ -815,7 +833,7 @@ function m.isDll(uri)
     if not ext then
         return false
     end
-    if platform.OS == 'Windows' then
+    if platform.os == 'windows' then
         if ext == 'dll' then
             return true
         end
@@ -914,7 +932,7 @@ function m.normalize(path)
             break
         end
     end
-    if platform.OS == 'Windows' then
+    if platform.os == 'windows' then
         path = path:gsub('[/\\]+', '\\')
                    :gsub('[/\\]+$', '')
                    :gsub('^(%a:)$', '%1\\')

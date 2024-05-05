@@ -1,5 +1,194 @@
 # changelog
 
+## 3.8.3
+`2024-4-23`
+* `FIX` server may crash when the workspace is using a non-English path.
+
+## 3.8.2
+`2024-4-23`
+* This is a fake version only for the new version of VSCode, with a core of 3.8.0.
+
+## 3.8.1
+`2024-4-23`
+* This is a fake version only for the old version of VSCode, with a core of `3.7.4`. Starting from the next minor version, the version requirement for VSCode will be raised to prevent users still using the old version of VSCode from updating to the new version and experiencing compatibility issues.
+
+## 3.8.0
+`2024-4-22`
+* `NEW` supports tuple type (@[lizho])
+  ```lua
+  ---@type [string, number, boolean]
+  local t
+
+  local x = t[1] --> x is `string`
+  local y = t[2] --> y is `number`
+  local z = t[3] --> z is `boolean`
+  ```
+* `NEW` generic pattern (@[fesily])
+  ```lua
+  ---@generic T
+  ---@param t Cat.`T`
+  ---@return T
+  local function f(t) end
+
+  local t = f('Smile') --> t is `Cat.Smile`
+  ```
+* `NEW` alias and enums supports attribute `partial`
+  ```lua
+  ---@alias Animal Cat
+
+  ---@alias(partial) Animal Dog
+
+  ---@type Animal
+  local animal --> animal is `Cat|Dog` here
+  ```
+
+  ```lua
+  ---@enum(key) ErrorCodes
+  local codes1 = {
+      OK = 0,
+      ERROR = 1,
+      FATAL = 2,
+  }
+
+  ---@enum(key, partial) ErrorCodes
+  local codes2 = {
+      WARN = 3,
+      INFO = 4,
+  }
+
+  ---@type ErrorCodes
+  local code
+
+  code = 'ERROR' --> OK
+  code = 'WARN'  --> OK
+
+  ```
+* `NEW` plugin: add `OnTransFormAst` interface (@[fesily])
+* `NEW` plugin: add `OnNodeCompileFunctionParam` interface (@[fesily])
+* `NEW` plugin: add `ResolveRequire` interface (@[Artem Dzhemesiuk])
+* `NEW` plugin: support multi plugins (@[fesily])
+  + setting: `Lua.runtime.plugin` can be `string|string[]`
+  + setting: `Lua.runtime.pluginArgs` can be `string[]|table<string, string>`
+* `NEW` CLI: `--doc` add option `--doc_out_path <PATH>` (@[Andreas Matthias])
+* `NEW` CLI: `--doc_update`, update an existing `doc.json` without using `--doc` again (@[Andreas Matthias])
+* `NEW` CLI: `--trust_all_plugins`, this is potentially unsafe for normal use and meant for usage in CI environments only (@[Paul Emmerich])
+* `CHG` CLI: `--check` will run plugins (@[Daniel Farrell])
+* `FIX` diagnostic: `discard-returns` not works in some blocks (@clay-golem)
+* `FIX` rename in library files
+
+## 3.7.4
+`2024-1-5`
+* `FIX` rename to unicode with `Lua.runtime.unicodeName = true`
+
+## 3.7.3
+`2023-11-14`
+* `FIX` can not infer arg type in some cases.
+
+## 3.7.2
+`2023-11-9`
+* `FIX` [#2407]
+
+[#2407]: https://github.com/LuaLS/lua-language-server/issues/2407
+
+## 3.7.1
+`2023-11-7`
+* `FIX` [#2299]
+* `FIX` [#2335]
+
+[#2299]: https://github.com/LuaLS/lua-language-server/issues/2299
+[#2335]: https://github.com/LuaLS/lua-language-server/issues/2335
+
+## 3.7.0
+`2023-8-24`
+* `NEW` support `---@type` and `--[[@as]]` for return statement
+* `NEW` commandline parameter `--force-accept-workspace`: allowing the use of the root directory or home directory as the workspace
+* `NEW` diagnostic: `inject-field`
+* `NEW` `---@enum` supports attribute `key`
+  ```lua
+  ---@enum (key) AnimalType
+  local enum = {
+    Cat = 1,
+    Dog = 2,
+  }
+  
+  ---@param animal userdata
+  ---@param atp AnimalType
+  ---@return boolean
+  local function isAnimalType(animal, atp)
+    return API.isAnimalType(animal, enum[atp])
+  end
+
+  assert(isAnimalType(animal, 'Cat'))
+  ```
+* `NEW` `---@class` supports attribute `exact`
+  ```lua
+  ---@class (exact) Point
+  ---@field x number
+  ---@field y number
+  local m = {}
+  m.x = 1 -- OK
+  m.y = 2 -- OK
+  m.z = 3 -- Warning
+  ```
+
+* `FIX` wrong hover and signature for method with varargs and overloads
+* `FIX` [#2155]
+* `FIX` [#2224]
+* `FIX` [#2252]
+* `FIX` [#2267]
+
+[#2155]: https://github.com/LuaLS/lua-language-server/issues/2155
+[#2224]: https://github.com/LuaLS/lua-language-server/issues/2224
+[#2252]: https://github.com/LuaLS/lua-language-server/issues/2252
+[#2267]: https://github.com/LuaLS/lua-language-server/issues/2267
+
+## 3.6.25
+`2023-7-26`
+* `FIX` [#2214]
+
+[#2214]: https://github.com/LuaLS/lua-language-server/issues/2214
+
+## 3.6.24
+`2023-7-21`
+* `NEW` diagnostic: `missing-fields`
+* `FIX` shake of `codeLens`
+* `FIX` [#2145]
+
+[#2145]: https://github.com/LuaLS/lua-language-server/issues/2145
+
+## 3.6.23
+`2023-7-7`
+* `CHG` signature: narrow by inputed literal
+
+## 3.6.22
+`2023-6-14`
+* `FIX` [#2038]
+* `FIX` [#2042]
+* `FIX` [#2062]
+* `FIX` [#2083]
+* `FIX` [#2088]
+* `FIX` [#2110]
+* `FIX` [#2129]
+
+[#2038]: https://github.com/LuaLS/lua-language-server/issues/2038
+[#2042]: https://github.com/LuaLS/lua-language-server/issues/2042
+[#2062]: https://github.com/LuaLS/lua-language-server/issues/2062
+[#2083]: https://github.com/LuaLS/lua-language-server/issues/2083
+[#2088]: https://github.com/LuaLS/lua-language-server/issues/2088
+[#2110]: https://github.com/LuaLS/lua-language-server/issues/2110
+[#2129]: https://github.com/LuaLS/lua-language-server/issues/2129
+
+## 3.6.21
+`2023-5-24`
+* `FIX` disable ffi plugin
+
+## 3.6.20
+`2023-5-23`
+* `NEW` support connecting by socket with `--socket=PORT`
+* `FIX` [#2113]
+
+[#2113]: https://github.com/LuaLS/lua-language-server/issues/2113
+
 ## 3.6.19
 `2023-4-26`
 * `FIX` commandline parameter `checklevel` may not work
@@ -823,7 +1012,7 @@ server will generate `doc.json` and `doc.md` in `LOGPATH`.
 
 ## 2.6.7
 `2022-3-9`
-* `NEW` offline diagnostic, [read more](https://github.com/LuaLS/lua-language-server/wiki/Offline-Diagnostic)
+* `NEW` diagnosis report, [read more](https://luals.github.io/wiki/diagnosis-report/)
 * `CHG` `VSCode`: 1.65 has built in new `Lua` syntax files, so this extension no longer provides syntax files, which means you can install other syntax extensions in the marketplace. If you have any suggestions or issues, please [open issues here](https://github.com/LuaLS/lua.tmbundle).
 * `CHG` telemetry: the prompt will only appear in VSCode to avoid repeated prompts in other platforms due to the inability to automatically modify the settings.
 * `FIX` [#965](https://github.com/LuaLS/lua-language-server/issues/965)
@@ -877,7 +1066,7 @@ server will generate `doc.json` and `doc.md` in `LOGPATH`.
 
 ## 2.6.0
 `2022-1-13`
-* `NEW` supports multi-workspace in server side, for developers of language clients, please [read here](https://github.com/LuaLS/lua-language-server/wiki/Multi-workspace-supports) to learn more.
+* `NEW` supports multi-workspace in server side, for developers of language clients, please [read here](https://luals.github.io/wiki/developing/#multiple-workspace-support) to learn more.
 * `NEW` setting:
   + `Lua.hint.arrayIndex`
   + `Lua.semantic.enable`
@@ -1244,7 +1433,7 @@ server will generate `doc.json` and `doc.md` in `LOGPATH`.
 
 ## 2.1.0
 `2021-7-2`
-* `NEW` supports local config file, using `--configpath="config.json"`, [learn more here](https://github.com/LuaLS/lua-language-server/wiki/Setting-without-VSCode)
+* `NEW` supports local config file, using `--configpath="config.json"`, [learn more here](https://luals.github.io/wiki/usage/#--configpath)
 * `NEW` goto `type definition`
 * `NEW` infer type by callback param:
     ```lua
@@ -1399,7 +1588,7 @@ server will generate `doc.json` and `doc.md` in `LOGPATH`.
 
 ## 1.20.0
 `2021-3-27`
-* `CHG` telemetry: change to opt-in, see [#462](https://github.com/LuaLS/lua-language-server/issues/462) and [Privacy-Policy](https://github.com/LuaLS/lua-language-server/wiki/Privacy-Policy)
+* `CHG` telemetry: change to opt-in, see [#462](https://github.com/LuaLS/lua-language-server/issues/462) and [Privacy-Policy](https://luals.github.io/privacy/#language-server)
 * `FIX` [#467](https://github.com/LuaLS/lua-language-server/issues/467)
 
 ## 1.19.1
@@ -1850,3 +2039,12 @@ f( -- view comments of `1` and `2` in completion
 `2020-11-9`
 
 * `NEW` implementation, NEW start!
+
+<!-- contributors -->
+[lizho]: (https://github.com/lizho)
+[fesily]: (https://github.com/fesily)
+[Andreas Matthias]: (https://github.com/AndreasMatthias)
+[Daniel Farrell]: (https://github.com/danpf)
+[Paul Emmerich]: (https://github.com/emmericp)
+[Artem Dzhemesiuk]: (https://github.com/zziger)
+[clay-golem]: (https://github.com/clay-golem)

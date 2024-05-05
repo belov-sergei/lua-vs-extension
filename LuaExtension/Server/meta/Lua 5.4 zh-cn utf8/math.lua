@@ -13,13 +13,13 @@
 ---
 ---@field huge       number
 ---
----最大值的整数。
+---Miss locale <math.maxinteger>
 ---
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-math.maxinteger"])
 ---
 ---@field maxinteger integer
 ---
----最小值的整数。
+---Miss locale <math.mininteger>
 ---
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-math.mininteger"])
 ---
@@ -343,7 +343,7 @@ function math.tanh(x) end
 
 ---@version >5.3
 ---
----如果 `x` 可以转换为一个整数， 返回该整数。
+---Miss locale <math.tointeger>
 ---
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-math.tointeger"])
 ---
@@ -353,7 +353,7 @@ function math.tanh(x) end
 function math.tointeger(x) end
 
 ---
----如果 `x` 是整数，返回 `"integer"`， 如果它是浮点数，返回 `"float"`， 如果 `x` 不是数字，返回 `nil`。
+---Miss locale <math.type>
 ---
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-math.type"])
 ---
@@ -366,7 +366,7 @@ function math.tointeger(x) end
 function math.type(x) end
 
 ---
----如果整数 `m` 和 `n` 以无符号整数形式比较， `m` 在 `n` 之下，返回布尔真否则返回假。
+---Miss locale <math.ult>
 ---
 ---[查看文档](command:extension.lua.doc?["en-us/54/manual.html/pdf-math.ult"])
 ---
